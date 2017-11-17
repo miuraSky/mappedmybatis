@@ -6,13 +6,15 @@
             <transactionManager type="JDBC" />
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://dev.qieyisheng.com:3306/test?characterEncoding=utf-8"/>
+                <property name="url" value="jdbc:mysql://dev.qieyisheng.com:3306/suy_myql?characterEncoding=utf-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="medlinker"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mappers/SsmMapper.xml"/>
+        <mapper resource="mappers/SsmMapper.xml" />
+        <mapper resource="mappers/PersonMapper.xml" />
+        <mapper resource="mappers/OrganMapper.xml" />
     </mappers>
 </configuration>

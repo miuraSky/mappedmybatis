@@ -1,6 +1,9 @@
 package com.mapped.mybatis;
 
+import com.mapped.mybatis.dao.OrganDao;
+import com.mapped.mybatis.dao.PersonDao;
 import com.mapped.mybatis.dao.SsmDao;
+import com.mapped.mybatis.entity.OrganDO;
 import com.mapped.mybatis.entity.SsmDO;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -22,7 +25,9 @@ public class AppMain {
     }
 
     public static void main(String[] args) {
-        ssm();
+        //ssm();
+        //person();
+        organ();
     }
 
     private static void ssm() {
@@ -32,8 +37,37 @@ public class AppMain {
             dao.listAll().forEach(System.out::println);
 
             SsmDO ssmDO = new SsmDO();
-            ssmDO.setSsm("ssm" + new java.util.Random().nextInt());
+            ssmDO.setSsm("ssm-中文" + new java.util.Random().nextInt());
             dao.save(ssmDO);
+
+            session.commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void person() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            PersonDao dao = session.getMapper(PersonDao.class);
+
+            System.out.println(dao.selectPerson(100));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void organ() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+
+            OrganDao dao = session.getMapper(OrganDao.class);
+
+            dao.listAll().forEach(System.out::println);
+
+            dao.save(new OrganDO() {
+                {
+                    setName("就是个名字");
+                }
+            });
 
             session.commit();
         } catch (Exception ex) {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapped.mybatis.dao.OrganDao">
+
+    <insert id="save" parameterType="com.mapped.mybatis.entity.OrganDO">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            SELECT UUID_SHORT()
+        </selectKey>
+
+        INSERT INTO organ (id, `name`) VALUES (#{id}, #{name})
+    </insert>
+
+    <select id="listAll" resultType="map">
+        SELECT * FROM organ ORDER BY id
+    </select>
+</mapper>
