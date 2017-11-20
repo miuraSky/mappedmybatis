@@ -5,4 +5,12 @@
     <select id="selectPerson" parameterType="int" resultType="hashmap">
         SELECT * FROM person WHERE id = #{id}
     </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO person (`name`) VALUES (#{name})
+    </insert>
+
+    <insert id="saveNone">
+        INSERT INTO person (`name`) VALUES (#{name})
+    </insert>
 </mapper>

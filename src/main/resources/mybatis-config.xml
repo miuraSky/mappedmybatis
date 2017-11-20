@@ -13,8 +13,9 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mappers/SsmMapper.xml" />
-        <mapper resource="mappers/PersonMapper.xml" />
         <mapper resource="mappers/OrganMapper.xml" />
+        <mapper resource="mappers/PersonMapper.xml" />
+        <mapper resource="mappers/SsmMapper.xml" />
+        <mapper resource="mappers/UserMapper.xml" />
     </mappers>
 </configuration>

@@ -3,8 +3,11 @@ package com.mapped.mybatis;
 import com.mapped.mybatis.dao.OrganDao;
 import com.mapped.mybatis.dao.PersonDao;
 import com.mapped.mybatis.dao.SsmDao;
+import com.mapped.mybatis.dao.UserDao;
 import com.mapped.mybatis.entity.OrganDO;
+import com.mapped.mybatis.entity.PersonDO;
 import com.mapped.mybatis.entity.SsmDO;
+import com.mapped.mybatis.entity.UserDO;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -25,9 +28,47 @@ public class AppMain {
     }
 
     public static void main(String[] args) {
-        //ssm();
-        //person();
-        organ();
+        // ssm();
+        // person();
+        // organ();
+        user();
+    }
+
+    private static void user() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            UserDao userDao = session.getMapper(UserDao.class);
+
+            UserDO userDO = new UserDO();
+            userDO.setName("小树林");
+            userDO.setPassword("xiaoshulin");
+
+            System.out.println("Before: " + userDO);
+            userDao.insert(userDO);
+            System.out.println("After: " + userDO);
+
+            System.out.println("sleep begin");
+            Thread.sleep(10000);
+            System.out.println("sleep end");
+
+            System.out.println("lastInsertId: " + userDao.getLastInsertId());
+
+            System.out.println("-- Before: " + userDO);
+            userDao.insert(userDO);
+            System.out.println("-- After: " + userDO);
+
+            System.out.println("-- sleep begin");
+            Thread.sleep(10000);
+            System.out.println("-- sleep end");
+
+            System.out.println("-- lastInsertId: " + userDao.getLastInsertId());
+
+            System.out.println("withMap: " + userDao.selectWithMap(userDO.getId()));
+            System.out.println("withPOJO: " + userDao.selectWithPOJO(userDO.getId()));
+
+            session.commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static void ssm() {
@@ -50,7 +91,21 @@ public class AppMain {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             PersonDao dao = session.getMapper(PersonDao.class);
 
-            System.out.println(dao.selectPerson(100));
+            System.out.println(dao.selectPerson(11));
+
+            PersonDO personDO = new PersonDO();
+            personDO.setName("个破烂的");
+
+            int idSave = dao.save(personDO);
+            System.out.println("idSave=" + idSave + ", personDO=" + personDO);
+
+            idSave = dao.save(personDO);
+            System.out.println("idSave=" + idSave + ", personDO=" + personDO);
+
+            int idSaveNone = dao.saveNone(personDO);
+            System.out.println("idSaveNone=" + idSaveNone + ", personDO=" + personDO);
+
+            session.commit();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -63,11 +118,14 @@ public class AppMain {
 
             dao.listAll().forEach(System.out::println);
 
-            dao.save(new OrganDO() {
+            Integer id = dao.save(new OrganDO() {
                 {
                     setName("就是个名字");
                 }
             });
+
+            System.out.println("id=" + id);
+
 
             session.commit();
         } catch (Exception ex) {
