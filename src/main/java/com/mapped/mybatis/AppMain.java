@@ -64,6 +64,7 @@ public class AppMain {
 
             System.out.println("withMap: " + userDao.selectWithMap(userDO.getId()));
             System.out.println("withPOJO: " + userDao.selectWithPOJO(userDO.getId()));
+            System.out.println("withResultMap: " + userDao.selectWithResultMap(userDO.getId()));
 
             session.commit();
         } catch (Exception ex) {

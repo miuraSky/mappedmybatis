@@ -11,6 +11,8 @@ public interface UserDao {
 
     UserDO selectWithPOJO(@Param("id") Long id);
 
+    UserDO selectWithResultMap(@Param("id") Long id);
+
     int insert(@Param("user") UserDO userDO);
 
     long getLastInsertId();
